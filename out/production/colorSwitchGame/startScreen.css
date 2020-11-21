@@ -1,0 +1,28 @@
+.startScreenButtons{
+    -fx-background-radius: 30;
+    -fx-min-width: 150px;
+    -fx-min-height: 60px;
+    -fx-max-width: 150px;
+    -fx-max-height: 60px;
+    -fx-background-color: transparent;
+    -fx-font-size: 2em;
+    -fx-border-width: 3 3 3 3;
+    -fx-border-radius: 30;
+}
+
+.loadButton{
+    -fx-border-color: #FAE100;
+    -fx-text-fill: #FAE100;
+}
+.scoresButton{
+    -fx-border-color: #32DBF0;
+    -fx-text-fill: #32DBF0;
+}
+.helpButton{
+    -fx-border-color: #FF0181;
+    -fx-text-fill: #FF0181;
+}
+.exitButton{
+    -fx-border-color: #900DFF;
+    -fx-text-fill: #900DFF;
+}
