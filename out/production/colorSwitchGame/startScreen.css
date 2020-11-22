@@ -26,3 +26,11 @@
     -fx-border-color: #900DFF;
     -fx-text-fill: #900DFF;
 }
+.exitLabel{
+    -fx-background-radius: 10;
+    -fx-background-color: #561B99;
+    -fx-border-color: #7525D6;
+    -fx-text-fill: #32DBF0;
+    -fx-border-width: 10 10 10 10;
+    -fx-border-radius: 10;
+}

@@ -1,0 +1,25 @@
+*{
+    -fx-fill: white;
+}
+
+.homeButton{
+    -fx-background-radius: 5em;
+    -fx-min-width: 80px;
+    -fx-min-height: 80px;
+    -fx-max-width: 80px;
+    -fx-max-height: 80px;
+    -fx-background-color: transparent;
+}
+
+.total{
+        -fx-font-size: 40;
+}
+.text{
+    -fx-font-size: 25;
+}
+.rectBottomOuter{
+        -fx-fill: #7525D4;
+}
+.rectBottomInner{
+        -fx-fill: #561B99;
+}

@@ -5,6 +5,7 @@ import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
 import javafx.animation.Timeline;
 import javafx.scene.Group;
+import javafx.scene.effect.Bloom;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Arc;
 import javafx.scene.shape.ArcType;
@@ -69,14 +70,19 @@ public class circle {
             return false;
         }
     }
+
     public void pauseRotation(){
         rotate.pause();
     }
     public void startRotation(){
         rotate.play();
     }
-
-
+    public void setEffect(Bloom bloom) {
+        arc1.setEffect(bloom);
+        arc2.setEffect(bloom);
+        arc3.setEffect(bloom);
+        arc4.setEffect(bloom);
+    }
 
 
 

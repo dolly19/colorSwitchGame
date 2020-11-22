@@ -11,14 +11,16 @@ public class mainPageButton {
     private circle circle1;
     private circle circle2;
     private circle circle3;
-    private Button button = new Button("PLAY");
+    private Button button;
 
     public mainPageButton() {
+
+        button = new Button("PLAY");
         int xCoordinate = 150;
         int yCoordinate = 300;
-        int radius1 = 40;
-        int radius2 = 60;
-        int radius3 = 83;
+        int radius1 = 50;
+        int radius2 = 70;
+        int radius3 = 93;
 
         circle1 = new circle(xCoordinate, yCoordinate, radius1, 12, 1);
         circle2 = new circle(xCoordinate, yCoordinate, radius2, 15, 0);
