@@ -1,29 +1,30 @@
 package sample;
 
-import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
 import javafx.animation.Timeline;
+import javafx.animation.TranslateTransition;
 import javafx.scene.Group;
-import javafx.scene.effect.Bloom;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Arc;
 import javafx.scene.shape.ArcType;
 import javafx.util.Duration;
 
-public class circle {
-    private Arc arc1;
-    private Arc arc2;
-    private Arc arc3;
-    private Arc arc4;
-    public Group circle = new Group();
+public class ring {
+    Group ring;
     private RotateTransition rotate;
+    private TranslateTransition translate;
+    private int height;
 
-    public circle(int xCoordinate, int yCoordinate, int radius, int width, int direction){
-        arc1 = new Arc(xCoordinate, yCoordinate, radius, radius, 0, 90);
-        arc2 = new Arc(xCoordinate, yCoordinate, radius, radius, 90, 90);
-        arc3 = new Arc(xCoordinate, yCoordinate, radius, radius, 180, 90);
-        arc4 = new Arc(xCoordinate, yCoordinate, radius, radius, 270, 90);
+    public ring(int height, int radius, int width, int direction){
+
+        this.height = height;
+        translate = new TranslateTransition();
+
+        Arc arc1 = new Arc(250, height, radius, radius, 0, 90);
+        Arc arc2 = new Arc(250, height, radius, radius, 90, 90);
+        Arc arc3 = new Arc(250, height, radius, radius, 180, 90);
+        Arc arc4 = new Arc(250, height, radius, radius, 270, 90);
 
         arc1.setType(ArcType.OPEN);
         arc1.setFill(Color.TRANSPARENT);
@@ -45,11 +46,12 @@ public class circle {
         arc4.setStrokeWidth(width);
         arc4.setStroke(Color.web("#32DBF0"));
 
-        circle.getChildren().addAll(arc1, arc2, arc3, arc4);
+        ring = new Group();
+        ring.getChildren().addAll(arc1, arc2, arc3, arc4);
 
         rotate = new RotateTransition();
+        rotate.setNode(ring);
 
-        rotate.setNode(circle);
         rotate.setDuration(Duration.seconds(3));
 
         if(direction == 0){
@@ -60,30 +62,21 @@ public class circle {
         rotate.setCycleCount(Timeline.INDEFINITE);
         rotate.setInterpolator(Interpolator.LINEAR);
         rotate.play();
+
     }
 
-    public boolean isRotating(){
-        if(rotate.statusProperty().getValue() == Animation.Status.RUNNING){
-            return true;
-        }else {
-            return false;
-        }
+    public int getHeight() {
+        return height;
     }
 
-    public void pauseRotation(){
-        rotate.pause();
+    public void moveDownBy(int x){
+//        System.out.println("I am here");
+        translate.setByY(x);
+        translate.setDuration(Duration.millis(300));
+        translate.setCycleCount(1);
+        translate.setNode(ring);
+        translate.play();
     }
-    public void startRotation(){
-        rotate.play();
-    }
-
-    public void setEffect(Bloom bloom) {
-        arc1.setEffect(bloom);
-        arc2.setEffect(bloom);
-        arc3.setEffect(bloom);
-        arc4.setEffect(bloom);
-    }
-
-
-
 }
+
+

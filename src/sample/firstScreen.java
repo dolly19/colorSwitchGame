@@ -2,8 +2,6 @@ package sample;
 
 import javafx.animation.TranslateTransition;
 import javafx.scene.Scene;
-import javafx.scene.effect.Bloom;
-import javafx.scene.effect.Reflection;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -17,12 +15,12 @@ public class firstScreen{
     private Circle cir;
     private circle circle1;
 
-    public firstScreen(Stage primaryStage, startScreen startScreen){
+    public firstScreen(Stage primaryStage, gameMain gameMain){
         Pane root = new Pane();
         int xCoordinate = 250;
         int yCoordinate = 334;
         int radius1 = 90;
-        root.setStyle("-fx-background-color: rgb(39, 39, 39)");
+        root.setStyle("-fx-background-color: #272327");
         scene = new Scene(root, 500 , 700);
         cir = new Circle();
         cir.setFill(Color.DEEPPINK);
@@ -45,17 +43,17 @@ public class firstScreen{
             trans1.setNode(cir);
             trans1.play();
             trans1.setOnFinished((e1)->{
-                cir.setFill(Color.WHITE);
-                Reflection ref = new Reflection();
-                ref.setBottomOpacity(0.2);
-                ref.setFraction(12);
-                ref.setTopOffset(-7);
-                ref.setTopOpacity(0.2);
-                cir.setEffect(ref);
-                circle1.pauseRotation();
-                Bloom bloom = new Bloom();
-                bloom.setThreshold(0.1);
-                circle1.setEffect(bloom);
+//                cir.setFill(Color.WHITE);
+//                Reflection ref = new Reflection();
+//                ref.setBottomOpacity(0.2);
+//                ref.setFraction(12);
+//                ref.setTopOffset(-7);
+//                ref.setTopOpacity(0.2);
+//                cir.setEffect(ref);
+//                circle1.pauseRotation();
+//                Bloom bloom = new Bloom();
+//                bloom.setThreshold(0.1);
+//                circle1.setEffect(bloom);
 
                 try {
                     TimeUnit.SECONDS.sleep(1);
@@ -63,7 +61,8 @@ public class firstScreen{
                     interruptedException.printStackTrace();
                 }
 
-                primaryStage.setScene(startScreen.scene);
+                primaryStage.setScene(gameMain.scene);
+
             });
 
 

@@ -1,0 +1,48 @@
+
+.homeButton{
+    -fx-background-radius: 5em;
+    -fx-min-width: 75px;
+    -fx-min-height: 75px;
+    -fx-max-width: 75px;
+    -fx-max-height: 75px;
+    -fx-background-color: transparent;
+}
+
+.resumeButton{
+
+-fx-font-size: 2em;
+-fx-text-fill: #32DBF0;
+-fx-border-color: #32DBF0;
+-fx-min-width: 220px;
+-fx-max-height: 0px;
+-fx-background-color: transparent;
+-fx-border-width: 3 3 3 3;
+-fx-border-radius: 30;
+
+}
+
+.restartButton{
+
+-fx-font-size: 2em;
+-fx-text-fill: #32D100;
+-fx-border-color: #32D100;
+-fx-min-width: 220px;
+-fx-max-height: 0px;
+-fx-background-color: transparent;
+-fx-border-width: 3 3 3 3;
+-fx-border-radius: 30;
+
+}
+
+.saveButton{
+
+-fx-font-size: 2em;
+-fx-text-fill: #FF0181;
+-fx-border-color: #FF0181;
+-fx-min-width: 220px;
+-fx-max-height: 0px;
+-fx-background-color: transparent;
+-fx-border-width: 3 3 3 3;
+-fx-border-radius: 30;
+
+}
