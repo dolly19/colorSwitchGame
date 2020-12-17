@@ -1,5 +1,7 @@
 package sample;
 
+import javafx.animation.Interpolator;
+import javafx.animation.ScaleTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -12,6 +14,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 
 public class gameOverScreen {
@@ -184,6 +187,15 @@ public class gameOverScreen {
         root.setLayoutX(180);
         root.setLayoutY(460);
 
+        ScaleTransition scaleTransition = new ScaleTransition();
+        scaleTransition.setDuration(Duration.millis(1000));
+        scaleTransition.setNode(restartImageButton);
+        scaleTransition.setByY(0.2);
+        scaleTransition.setByX(0.2);
+        scaleTransition.setCycleCount(500);
+        scaleTransition.setInterpolator(Interpolator.LINEAR);
+        scaleTransition.setAutoReverse(true);
+        scaleTransition.play();
 
         root.getChildren().addAll(restartImageButton, button);
         return root;

@@ -18,7 +18,7 @@ import javax.print.attribute.standard.RequestingUserName;
 import java.io.File;
 import java.util.Random;
 
-public class music {
+public class settingsScreen {
     public Scene scene;
     private Button stopButton;
     private Button playButton ;
@@ -30,7 +30,7 @@ public class music {
     private String[] musicPlaylist;
 
 
-    music(Stage primaryStage, Scene gameMainScreen){
+    settingsScreen(Stage primaryStage, Scene gameMainScreen){
         this.primaryStage = primaryStage;
 
         musicPlaylist = new String[]{"Cave.mp3", "Hop.mp3", "Summer.mp3", "theme.mp3"};

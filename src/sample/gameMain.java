@@ -23,7 +23,7 @@ public class gameMain {
     private Button scoreButton ;
     private Button settingButton ;
     private Button exitButton ;
-    private music settingScreen;
+    private settingsScreen settingScreen;
     StackPane middleButton;
 
     public gameMain(Stage primaryStage){
@@ -54,7 +54,7 @@ public class gameMain {
         scoreScreen = new scoreScreen(primaryStage, scene);
         loadGameScreen = new loadGame(primaryStage, this.scene);
         gameplayScreen = new gameplay(primaryStage, this.scene);
-        settingScreen = new music(primaryStage, this.scene);
+        settingScreen = new settingsScreen(primaryStage, this.scene);
     }
 
     private void addClassToButtons(){

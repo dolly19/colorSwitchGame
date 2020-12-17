@@ -24,6 +24,11 @@
     -fx-border-color: #FF0181;
     -fx-text-fill: #FF0181;
 }
+.settingButton:hover{
+    -fx-text-fill: #FFFFFF;
+    -fx-background-color: #FF0181;
+
+}
 .exitButton{
     -fx-border-color: #900DFF;
     -fx-text-fill: #900DFF;

@@ -7,12 +7,15 @@ import javafx.scene.shape.Circle;
 import java.util.Random;
 
 public class playerBall {
+
+    private static playerBall single_instance = null;
+
     private Circle circle;
     private String colors[];
     private String currColor;
     float ballGravity;
     float v;
-    public playerBall(){
+    private playerBall(){
         this.ballGravity = 0.2f;
         this.v = 4.45f;
         colors = new String[]{"#FAE100", "#900DFF", "#FF0181", "#32DBF0"};
@@ -23,6 +26,14 @@ public class playerBall {
         circle.setCenterY(650);
         circle.setRadius(10);
         circle.setFill(Paint.valueOf(currColor));
+
+    }
+
+    public static playerBall getInstance()
+    {
+        if (single_instance == null)
+            single_instance = new playerBall();
+        return single_instance;
     }
 
     public void changeColour(){

@@ -21,7 +21,7 @@ public class pauseScreen {
     private Button resumeButton;
     private Button saveButton;
     private Button restartButton;
-    private Button gameOver;
+    private Button colorButton;
     private Group homeButtonGroup;
 
     public pauseScreen(Stage primaryStage, gameplay gameplayScreen, Scene gameMain, Scene gameOverScreen, AnimationTimer animation)  {
@@ -32,18 +32,18 @@ public class pauseScreen {
         this.resumeButton = new Button("RESUME");
         this.restartButton = new Button("RESTART");
         this.saveButton = new Button("SAVE GAME");
-        this.gameOver = new Button("Game Over");
+        this.colorButton = new Button("Color");
         this.gameplayScreen = gameplayScreen;
 
         setUpHomeButton(gameMain);
         setUpResumeButton();
         setUpSaveButton();
-        setUpGameOverButton(primaryStage, gameOverScreen);
+        setUpChangeColor(primaryStage, gameOverScreen);
         setUpRestartButton();
 
 
         root.setAlignment(Pos.CENTER);
-        root.getChildren().addAll(homeButtonGroup, saveButton,resumeButton, gameOver, restartButton);
+        root.getChildren().addAll(homeButtonGroup,resumeButton, saveButton, restartButton, colorButton);
 
         root.setStyle("-fx-background-color: #272327");
         scene = new Scene(root, 500, 700);
@@ -99,21 +99,23 @@ public class pauseScreen {
         saveButton.getStyleClass().add("saveButton");
     }
 
-    private void setUpGameOverButton(Stage primaryStage, Scene gameOverScreen){
-        gameOver.setStyle(
+    private void setUpChangeColor(Stage primaryStage, Scene gameOverScreen){
+        colorButton.setStyle(
                 "-fx-border-color: yellow;" + " -fx-text-fill: yellow;" +
                         "-fx-min-width: 220px;" +
                         "-fx-max-height: 0px;" + "-fx-background-color: transparent;"+ " -fx-font-size: 2em;" +
                         "-fx-border-width: 3 3 3 3; " +
                         "-fx-border-radius: 30; " );
-        gameOver.setLayoutX(40);
-        gameOver.setLayoutY(20);
+        colorButton.setLayoutX(40);
+        colorButton.setLayoutY(20);
+
 
         EventHandler<ActionEvent> goToGameOver =
                 e -> {
-                    primaryStage.setScene(gameOverScreen);
+                    gameplayScreen.changeSceneColor();
+                    primaryStage.setScene(gameplayScreen.getScene());
                 };
-        gameOver.setOnAction(goToGameOver);
+        colorButton.setOnAction(goToGameOver);
     }
 
 

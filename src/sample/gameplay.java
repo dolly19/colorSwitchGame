@@ -12,6 +12,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
@@ -21,6 +22,7 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Random;
 
 public class gameplay {
     private gameOverScreen gameOverScreen;
@@ -30,7 +32,6 @@ public class gameplay {
     private Scene scene;
     private AnimationTimer animation;
     private Text scoreBoard;
-    playerBall playerBall;
     Player player;
     ArrayList<gameElement> allObstacles;
     ArrayList<rainbowBall> colorSwitchers;
@@ -42,7 +43,6 @@ public class gameplay {
         this.gameOverScreen = new gameOverScreen(primaryStage, gameMain, this);
         this.root = new Pane();
         this.player = new Player();
-        this.playerBall = new playerBall();
         this.colorSwitchers = new ArrayList<>();
         this.allObstacles = new ArrayList<>();
         this.stars = new ArrayList<>();
@@ -51,7 +51,8 @@ public class gameplay {
         addPauseButton(primaryStage);
         startGame();
 
-        scene = new Scene(root, 500, 700);
+        this.scene = new Scene(root, 500, 700);
+
         root.setStyle("-fx-background-color: #272327;");
 
         this.pauseScreen = new pauseScreen(primaryStage, this, gameMain, this.gameOverScreen.scene, animation);
@@ -64,9 +65,7 @@ public class gameplay {
                 player.ball.setV(4.5f);
             }
         });
-
     }
-
 
     public void startGame(){
 
@@ -75,9 +74,6 @@ public class gameplay {
             public void handle(long l) {
 
 //      ---------------------- Moving obstacles down ----------------------
-
-
-
 
                 if(player.ball.getLayoutY() < 350){
                     for(int i = 0; i < allObstacles.size(); i++){
@@ -158,45 +154,44 @@ public class gameplay {
                         i--;
                     }
                 }
+
 //      ---------------------- Ball and obstacles collision ----------------------
 
                 for(int i = 0; i < allObstacles.size(); i++){
                     for (int j = 0; j < allObstacles.get(i).getNode().getChildren().size(); j++){
-                        Shape intersect = Shape.intersect((Shape) allObstacles.get(i).getNode().getChildren().get(j), player.ball.getBall());
-                        if(intersect.getBoundsInLocal().getHeight() > 15  && !allObstacles.get(i).getNode().getChildren().get(j).getId().equals(player.ball.getColor()) && !player.ball.getColor().equals("#FFFFFF")){
-                            System.out.println("Yippee!!!");
-                            System.out.println(!player.ball.getColor().equals("#FFFFFF"));
-                            gameOverScreen.setFinalScore(String.valueOf(player.getScore()));
-                            pauseGame();
+                        if(allObstacles.get(i).getLayoutY() > 0 && allObstacles.get(i).getLayoutY() < 700){
+                            Shape intersect = Shape.intersect((Shape) allObstacles.get(i).getNode().getChildren().get(j), player.ball.getBall());
+                            if(intersect.getBoundsInLocal().getHeight() > 12 && !allObstacles.get(i).getNode().getChildren().get(j).getId().equals(player.ball.getColor()) && !player.ball.getColor().equals("#FFFFFF")){
+                                System.out.println("Yippee!!!");
+                                System.out.println(!player.ball.getColor().equals("#FFFFFF"));
+                                gameOverScreen.setFinalScore(String.valueOf(player.getScore()));
+                                pauseGame();
 
-                            try {
-                                Thread.sleep(1000);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
+                                try {
+                                    Thread.sleep(1000);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                                primaryStage.setScene(gameOverScreen.scene);
                             }
-
-                            primaryStage.setScene(gameOverScreen.scene);
 
                         }
                     }
                 }
             }
         };
-
-
     }
 
 
     private void createGameElements(){
         root.getChildren().addAll(player.ball.getBall());
 
-
         allObstacles.add(new ring(0, 85, 15, 1));
-//        allObstacles.add(new doubleRing(0, 85, 15));
-//        allObstacles.add(new tripleRing(0, 85, 15));
+        allObstacles.add(new doubleRing(0, 85, 15));
         allObstacles.add(new rectangle(0, 15, 170, 1));
         allObstacles.add(new verticalLine(0));
         allObstacles.add(new plusObstacle());
+        allObstacles.add(new tripleRing(0, 85, 15));
         allObstacles.add(new line(0));
         allObstacles.add(new circleRing(0));
 
@@ -312,4 +307,13 @@ public class gameplay {
     public Scene getScene() {
         return scene;
     }
+    public void changeSceneColor(){
+        Random rand = new Random();
+        scene.setFill(Color.RED);
+        int r = rand.nextInt(255);
+        int g = rand.nextInt(255);
+        int b = rand.nextInt(255);
+        root.setStyle("-fx-background-color: rgb(" + r + "," + g + ", " + b + ");");
+    }
+
 }
