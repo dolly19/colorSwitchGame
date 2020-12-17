@@ -20,6 +20,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class gameplay {
     private gameOverScreen gameOverScreen;
@@ -36,7 +37,6 @@ public class gameplay {
     ArrayList<star> stars;
 
 
-
     public gameplay(Stage primaryStage, Scene gameMain){
         this.primaryStage = primaryStage;
         this.gameOverScreen = new gameOverScreen(primaryStage, gameMain, this);
@@ -47,11 +47,9 @@ public class gameplay {
         this.allObstacles = new ArrayList<>();
         this.stars = new ArrayList<>();
 
-
         createGameElements();
         addPauseButton(primaryStage);
         startGame();
-
 
         scene = new Scene(root, 500, 700);
         root.setStyle("-fx-background-color: #272327;");
@@ -64,7 +62,6 @@ public class gameplay {
                 animation.start();
                 startObstacleAnimation();
                 player.ball.setV(4.5f);
-                allObstacles.get(0).levelUp();
             }
         });
 
@@ -78,6 +75,10 @@ public class gameplay {
             public void handle(long l) {
 
 //      ---------------------- Moving obstacles down ----------------------
+
+
+
+
                 if(player.ball.getLayoutY() < 350){
                     for(int i = 0; i < allObstacles.size(); i++){
                         allObstacles.get(i).move(2);
@@ -99,6 +100,7 @@ public class gameplay {
                 }
 
 //      ---------------------- Below is the implementation of infinite obstacles ----------------------
+
                 int least = 0;
                 double min = 999999;
                 for(int i = 0; i < allObstacles.size(); i++){
@@ -107,7 +109,7 @@ public class gameplay {
                         min = allObstacles.get(i).getLayoutY();
                     }
                 }
-//        System.out.println(allObstacles.get(2).getNode().getBoundsInLocal());
+
                 for(int i = 0; i < allObstacles.size(); i++){
                     if(allObstacles.get(i).getLayoutY() > 750){
                         double h1 = allObstacles.get(least).getNode().getBoundsInLocal().getHeight() / 2;
@@ -125,6 +127,9 @@ public class gameplay {
 
                         stars.add(newStar);
                         root.getChildren().add(newStar.getNode());
+
+                        allObstacles.get(i).levelUp();
+
                     }
                 }
 
@@ -154,11 +159,13 @@ public class gameplay {
                     }
                 }
 //      ---------------------- Ball and obstacles collision ----------------------
+
                 for(int i = 0; i < allObstacles.size(); i++){
                     for (int j = 0; j < allObstacles.get(i).getNode().getChildren().size(); j++){
                         Shape intersect = Shape.intersect((Shape) allObstacles.get(i).getNode().getChildren().get(j), player.ball.getBall());
-                        if(intersect.getBoundsInLocal().getHeight() > 5  && !allObstacles.get(i).getNode().getChildren().get(j).getId().equals(player.ball.getColor())){
+                        if(intersect.getBoundsInLocal().getHeight() > 15  && !allObstacles.get(i).getNode().getChildren().get(j).getId().equals(player.ball.getColor()) && !player.ball.getColor().equals("#FFFFFF")){
                             System.out.println("Yippee!!!");
+                            System.out.println(!player.ball.getColor().equals("#FFFFFF"));
                             gameOverScreen.setFinalScore(String.valueOf(player.getScore()));
                             pauseGame();
 
@@ -218,8 +225,8 @@ public class gameplay {
     public void pauseGame(){
         animation.stop();
 //        pauseObstacleAnimation();
-
     }
+
     public void restartGame(){
         player.ball.setCentreY(650);
         player.setScore(0);
@@ -229,7 +236,6 @@ public class gameplay {
             double h1 = allObstacles.get(i-1).getNode().getBoundsInLocal().getHeight() / 2;
             double h2 = allObstacles.get(i).getNode().getBoundsInLocal().getHeight() / 2;
             allObstacles.get(i).setLayoutY(allObstacles.get(i-1).getLayoutY() - h1 - h2 - 200);
-
         }
 
         int diff = allObstacles.size() - colorSwitchers.size();
@@ -300,11 +306,6 @@ public class gameplay {
     public void startObstacleAnimation(){
         for(int i = 0; i < allObstacles.size(); i++){
             allObstacles.get(i).startAnimation();
-        }
-    }
-    public void pauseObstacleAnimation(){
-        for(int i = 0; i < allObstacles.size(); i++){
-            allObstacles.get(i).pauseAnimation();
         }
     }
 

@@ -19,7 +19,6 @@ public class verticalLine extends gameElement {
     private final int NUM_NODES1;
     Group content;
     verticalLine(int height){
-
         this.height = height;
         translate = new TranslateTransition();
 
@@ -138,12 +137,8 @@ public class verticalLine extends gameElement {
                 transition.jumpTo(Duration.seconds(10).multiply(count * 1.0 / NUM_NODES1));
 
             }
-
         }
-
         content.relocate(-100,0);
-
-
     }
     private PathTransition createPathTransition(Shape shape, Node node) {
         final PathTransition transition = new PathTransition(

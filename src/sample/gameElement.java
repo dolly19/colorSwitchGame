@@ -4,6 +4,7 @@ package sample;
 import javafx.scene.Group;
 
 abstract class gameElement {
+    int speed;
     abstract void move(double y);
     abstract Group getNode();
     abstract void setLayoutY(double y);

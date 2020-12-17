@@ -13,11 +13,13 @@ public class ring extends gameElement {
     Group ring;
     private int height;
     private RotateTransition rotate;
+//    private double speed;
 
     public ring(int height, int radius, int width, int direction){
 
         this.height = height;
         this.rotate = new RotateTransition();
+        this.speed = 3000;
 
         Arc arc1 = new Arc(250, height, radius, radius, 0, 90);
         Arc arc2 = new Arc(250, height, radius, radius, 90, 90);
@@ -54,7 +56,7 @@ public class ring extends gameElement {
         rotate = new RotateTransition();
         rotate.setNode(ring);
 
-        rotate.setDuration(Duration.seconds(3));
+        rotate.setDuration(Duration.millis(speed));
 
         if(direction == 0){
             rotate.setByAngle(360);
@@ -63,8 +65,7 @@ public class ring extends gameElement {
         }
         rotate.setCycleCount(Timeline.INDEFINITE);
         rotate.setInterpolator(Interpolator.LINEAR);
-
-        startAnimation();
+        rotate.play();
 
 
     }
@@ -79,7 +80,7 @@ public class ring extends gameElement {
 
     @Override
     public void startAnimation(){
-        rotate.play();
+
     }
     @Override
     public void pauseAnimation(){
@@ -98,9 +99,11 @@ public class ring extends gameElement {
 
     @Override
     public void levelUp(){
-        System.out.println("level Up");
-        rotate.setDuration(Duration.seconds(1));
-
+        rotate.stop();
+        rotate.setNode(ring);
+        speed -= 100;
+        rotate.setDuration(Duration.millis(speed));
+        rotate.play();
     }
 
 }

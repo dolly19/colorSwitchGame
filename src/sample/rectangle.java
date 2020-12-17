@@ -17,6 +17,7 @@ public class rectangle extends gameElement {
     private RotateTransition rotate;
 
     public rectangle(int height,int width ,int length , int direction) {
+        this.speed = 3000;
         this.height = height;
         line1 = new Line();
         line1.setStartX(165);
@@ -66,7 +67,7 @@ public class rectangle extends gameElement {
         square.getChildren().addAll(line1,line2,line3,line4);
         rotate = new RotateTransition();
         rotate.setNode(square);
-        rotate.setDuration(Duration.seconds(3));
+        rotate.setDuration(Duration.millis(speed));
 
         if(direction == 0){
             rotate.setByAngle(360);
@@ -109,6 +110,11 @@ public class rectangle extends gameElement {
 
     @Override
     void levelUp() {
+        rotate.stop();
+        rotate.setNode(square);
+        speed -= 100;
+        rotate.setDuration(Duration.millis(speed));
+        rotate.play();
 
     }
 

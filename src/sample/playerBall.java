@@ -53,14 +53,17 @@ public class playerBall {
         return ballGravity;
     }
 
+    public void makeItWhite(){
+        this.circle.setFill(Paint.valueOf("#FFFFFF"));
+        this.currColor = "#FFFFFF";
+    }
+
     public float getV() {
         return v;
     }
-
     public void setV(float v) {
         this.v = v;
     }
-
 
     public void setCentreY(double y){
         circle.setCenterY(y);

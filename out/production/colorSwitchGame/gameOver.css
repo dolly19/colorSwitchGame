@@ -1,0 +1,20 @@
+.resumeButton{
+
+-fx-font-size: 2em;
+-fx-text-fill: #32DBF0;
+-fx-border-color: #32DBF0;
+-fx-min-width: 220px;
+-fx-max-height: 0px;
+-fx-background-color: transparent;
+-fx-border-width: 3 3 3 3;
+-fx-border-radius: 30;
+
+}
+.restartButton{
+    -fx-background-radius: 5em;
+    -fx-min-width: 120px;
+    -fx-min-height: 120px;
+    -fx-max-width: 120px;
+    -fx-max-height: 120px;
+    -fx-background-color: transparent
+}

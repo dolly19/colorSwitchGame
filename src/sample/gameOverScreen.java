@@ -30,9 +30,10 @@ public class gameOverScreen {
 
         root = new Pane();
         root.getChildren().addAll(renderTopAnimation(), renderBackButton(), renderScoreHeader(), renderScore(),
-                renderBestScoreHeader(), renderBestScore(), renderRestartButton());
+                renderBestScoreHeader(), renderBestScore(), renderResumeButton(), renderRestartButton());
         root.setStyle("-fx-background-color: #272327;");
         scene = new Scene(root, 500, 700);
+        scene.getStylesheets().add("gameOver.css");
 
     }
 
@@ -81,7 +82,6 @@ public class gameOverScreen {
         return  root;
     }
     private StackPane renderScoreHeader(){
-
         StackPane root = new StackPane();
         Rectangle scoreRect = new Rectangle(0, 0, 500, 75);
         scoreRect.setFill(Paint.valueOf("#393939"));
@@ -136,24 +136,39 @@ public class gameOverScreen {
                 "-fx-font-size: 50;" +
                         "-fx-fill: white;"
         );
-        currentScore.setY(450);
+        currentScore.setY(430);
         currentScore.setX(200);
 
         return currentScore;
     }
 
+    private Button renderResumeButton(){
+        Button resumeButton = new Button("Continue");
+        resumeButton.getStyleClass().add("resumeButton");
+        EventHandler<ActionEvent> resumeGame =
+                e -> {
+                    int totalStars = gameplayScreen.player.getScore();
+                    int penalty = 5;
+                    if(totalStars - penalty >= 0){
+                        gameplayScreen.player.setScore(gameplayScreen.player.getScore() - penalty);
+                        gameplayScreen.updateScoreboard(String.valueOf(totalStars - penalty));
+                        gameplayScreen.player.ball.makeItWhite();
+                        gameplayScreen.startGame();
+                        primaryStage.setScene(gameplayScreen.getScene());
+                    }
+
+
+                };
+        resumeButton.setOnAction(resumeGame);
+        resumeButton.setLayoutX(130);
+        resumeButton.setLayoutY(630);
+        return resumeButton;
+    }
     private StackPane renderRestartButton(){
         StackPane root = new StackPane();
 
         Button button = new Button();
-        button.setStyle(
-                "-fx-background-radius: 5em; " +
-                        "-fx-min-width: 120px; " +
-                        "-fx-min-height: 120px; " +
-                        "-fx-max-width: 120px; " +
-                        "-fx-max-height: 120px;" +
-                        "-fx-background-color: transparent"
-        );
+        button.getStyleClass().add("restartButton");
 
         EventHandler<ActionEvent> restartGame =
                 e -> {
@@ -167,7 +182,7 @@ public class gameOverScreen {
         restartImageButton.setPreserveRatio(true);
         restartImageButton.setFitWidth(120);
         root.setLayoutX(180);
-        root.setLayoutY(500);
+        root.setLayoutY(460);
 
 
         root.getChildren().addAll(restartImageButton, button);
