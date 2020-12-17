@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -14,6 +15,8 @@ import javafx.stage.Stage;
 public class pauseScreen {
     public VBox root;
     public Scene scene;
+    private Stage primaryStage;
+    private gameplay gameplayScreen;
     private Button homeButton;
     private Button resumeButton;
     private Button saveButton;
@@ -21,17 +24,19 @@ public class pauseScreen {
     private Button gameOver;
     private Group homeButtonGroup;
 
-    public pauseScreen(Stage primaryStage, Scene gameplayScreen, Scene gameMain, Scene gameOverScreen)  {
+    public pauseScreen(Stage primaryStage, gameplay gameplayScreen, Scene gameMain, Scene gameOverScreen, AnimationTimer animation)  {
 
-        root = new VBox(30);
-        homeButtonGroup = new Group();
-        resumeButton = new Button("RESUME");
-        restartButton = new Button("RESTART");
-        saveButton = new Button("SAVE GAME");
-        gameOver = new Button("Game Over");
+        this.root = new VBox(30);
+        this.primaryStage = primaryStage;
+        this.homeButtonGroup = new Group();
+        this.resumeButton = new Button("RESUME");
+        this.restartButton = new Button("RESTART");
+        this.saveButton = new Button("SAVE GAME");
+        this.gameOver = new Button("Game Over");
+        this.gameplayScreen = gameplayScreen;
 
-        setUpHomeButton(primaryStage, gameMain);
-        setUpResumeButton(primaryStage, gameplayScreen);
+        setUpHomeButton(gameMain);
+        setUpResumeButton();
         setUpSaveButton();
         setUpGameOverButton(primaryStage, gameOverScreen);
         setUpRestartButton();
@@ -47,10 +52,7 @@ public class pauseScreen {
 
     }
 
-
-
-
-    private void setUpHomeButton(Stage primaryStage, Scene gameMain){
+    private void setUpHomeButton(Scene gameMain){
         homeButton = new Button();
         Image image = new Image("file:assets/images/homeButton.png");
         ImageView homeButtonImage = new ImageView(image);
@@ -61,7 +63,8 @@ public class pauseScreen {
 
         EventHandler<ActionEvent> goToHome =
                 e -> {
-                    primaryStage.setScene(gameMain);
+                    this.gameplayScreen.pauseGame();
+                    this.primaryStage.setScene(gameMain);
                 };
         homeButton.setOnAction(goToHome);
 
@@ -69,17 +72,24 @@ public class pauseScreen {
         homeButtonGroup.getChildren().addAll(homeButtonImage, homeButton);
 
     }
-    private void setUpResumeButton(Stage primaryStage, Scene gameplayScreen){
+    private void setUpResumeButton(){
         resumeButton.getStyleClass().add("resumeButton");
         EventHandler<ActionEvent> resumeGame =
                 e -> {
-                    primaryStage.setScene(gameplayScreen);
+                    primaryStage.setScene(gameplayScreen.getScene());
+                    gameplayScreen.startGame();
                 };
         resumeButton.setOnAction(resumeGame);
     }
 
     private void setUpRestartButton(){
         restartButton.getStyleClass().add("restartButton");
+        EventHandler<ActionEvent> restartGame =
+                e -> {
+                    primaryStage.setScene(gameplayScreen.getScene());
+                    gameplayScreen.restartGame();
+                };
+        restartButton.setOnAction(restartGame);
 
         restartButton.setLayoutX(40);
         restartButton.setLayoutY(20);

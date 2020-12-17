@@ -5,20 +5,15 @@ import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Arc;
 import javafx.scene.shape.ArcType;
-import javafx.scene.transform.Translate;
-import javafx.util.Duration;
 
-public class rainBowBall {
+public class rainbowBall extends gameElement {
     Group ball;
-    private TranslateTransition translate;
 
-    public rainBowBall(){
-        Arc arc1 = new Arc(250, 550, 15, 15, 0, 90);
-        Arc arc2 = new Arc(250, 550, 15, 15, 90, 90);
-        Arc arc3 = new Arc(250, 550, 15, 15, 180, 90);
-        Arc arc4 = new Arc(250, 550, 15, 15, 270, 90);
-
-        translate = new TranslateTransition();
+    public rainbowBall(){
+        Arc arc1 = new Arc(250, 0, 15, 15, 0, 90);
+        Arc arc2 = new Arc(250, 0, 15, 15, 90, 90);
+        Arc arc3 = new Arc(250, 0, 15, 15, 180, 90);
+        Arc arc4 = new Arc(250, 0, 15, 15, 270, 90);
 
         arc1.setType(ArcType.ROUND);
         arc1.setFill(Color.TRANSPARENT);
@@ -44,19 +39,33 @@ public class rainBowBall {
         ball.getChildren().addAll(arc1, arc2, arc3, arc4);
     }
 
-    public void moveDownBy(int x){
-
-//        System.out.println("I am here");
-
-        translate.setByY(x);
-        translate.setDuration(Duration.millis(300));
-        translate.setCycleCount(1);
-        translate.setNode(ball);
-        translate.play();
+    @Override
+    public void setLayoutY(double y){
+        ball.setLayoutY(y);
     }
-    public void hide(){
-        ball.minWidth(0);
+    @Override
+    public double getLayoutY() {
+        return ball.getLayoutY();
     }
 
+    @Override
+    void levelUp() {
+
+    }
+
+    @Override
+    public void move(double y){
+        ball.setLayoutY(ball.getLayoutY() + y);
+    }
+
+    @Override
+    public Group getNode(){
+        return ball;
+    }
+
+    @Override
+    void startAnimation() { }
+    @Override
+    void pauseAnimation() { }
 
 }

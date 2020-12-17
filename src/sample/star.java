@@ -1,37 +1,38 @@
 package sample;
 
 import javafx.animation.TranslateTransition;
+import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.util.Duration;
 
 public class star {
-    ImageView star;
-    TranslateTransition translate;
+    private ImageView star;
     public star(){
-        translate = new TranslateTransition();
-
-        Image image = new Image("file:assets/images/star.jpeg");
+        Image image = new Image("file:assets/images/star.png");
         star = new ImageView(image);
         star.setPreserveRatio(true);
         star.setFitHeight(30);
-        star.setX(235);
-        star.setY(340);
-
+//        img.setX(235);
+//        img.setY(-2);
+        star.setLayoutX(235);
+        star.setLayoutY(0);
     }
 
-    public void moveDownBy(int x){
-//        System.out.println("I am here");
-        translate.setByY(x);
-        translate.setDuration(Duration.millis(300));
-        translate.setCycleCount(1);
-        translate.setNode(star);
-        translate.play();
+
+    public void setLayoutY(double y){
+        star.setLayoutY(y);
     }
 
-    public void hide(){
-        star.setFitWidth(0);
+    public double getLayoutY() {
+        return star.getLayoutY();
     }
 
+    public void move(double y){
+        star.setLayoutY(star.getLayoutY() + y);
+    }
+
+    public ImageView getNode(){
+        return star;
+    }
 
 }

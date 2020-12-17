@@ -19,17 +19,18 @@ public class gameOverScreen {
     private Pane root;
     private Stage primaryStage;
     private Scene gameMain;
+    private gameplay gameplayScreen;
+    private Text finalScore;
 
-    public gameOverScreen(Stage primaryStage, Scene gameMain){
+    public gameOverScreen(Stage primaryStage, Scene gameMain, gameplay gameplayScreen){
 
         this.primaryStage = primaryStage;
         this.gameMain = gameMain;
+        this.gameplayScreen = gameplayScreen;
 
         root = new Pane();
-
-
-        root.getChildren().addAll(renderTopAnimation(), renderBackButton(), renderScoreHeader(), renderScore(10),
-                renderBestScoreHeader(), renderBestScore(100), renderRestartButton());
+        root.getChildren().addAll(renderTopAnimation(), renderBackButton(), renderScoreHeader(), renderScore(),
+                renderBestScoreHeader(), renderBestScore(), renderRestartButton());
         root.setStyle("-fx-background-color: #272327;");
         scene = new Scene(root, 500, 700);
 
@@ -63,6 +64,7 @@ public class gameOverScreen {
         EventHandler<ActionEvent> goToHome =
                 e -> {
                     this.primaryStage.setScene(this.gameMain);
+                    this.gameplayScreen.restartGame();
                 };
         button.setOnAction(goToHome);
 
@@ -96,16 +98,19 @@ public class gameOverScreen {
         return root;
 
     }
-    private Text renderScore(int score){
-        Text currentScore = new Text(Integer.toString(score));
-        currentScore.setStyle(
+    private Text renderScore(){
+        finalScore = new Text("0");
+        finalScore.setStyle(
                 "-fx-font-size: 50;" +
                         "-fx-fill: white;"
         );
-        currentScore.setY(280);
-        currentScore.setX(220);
+        finalScore.setY(280);
+        finalScore.setX(220);
 
-        return currentScore;
+        return finalScore;
+    }
+    public void setFinalScore(String s){
+        finalScore.setText(s);
     }
 
     private StackPane renderBestScoreHeader(){
@@ -119,15 +124,14 @@ public class gameOverScreen {
                 "-fx-font-size: 50;" +
                         "-fx-fill: white;"
         );
-
         root.getChildren().addAll(scoreRect, scoreText);
         root.setLayoutX(0);
         root.setLayoutY(300);
         return root;
 
     }
-    private Text renderBestScore(int score){
-        Text currentScore = new Text(Integer.toString(score));
+    private Text renderBestScore(){
+        Text currentScore = new Text("100");
         currentScore.setStyle(
                 "-fx-font-size: 50;" +
                         "-fx-fill: white;"
@@ -153,7 +157,8 @@ public class gameOverScreen {
 
         EventHandler<ActionEvent> restartGame =
                 e -> {
-                    this.primaryStage.setScene(this.gameMain);
+                    this.gameplayScreen.restartGame();
+                    this.primaryStage.setScene(this.gameplayScreen.getScene());
                 };
         button.setOnAction(restartGame);
 
@@ -167,8 +172,6 @@ public class gameOverScreen {
 
         root.getChildren().addAll(restartImageButton, button);
         return root;
-
-
 
     }
 

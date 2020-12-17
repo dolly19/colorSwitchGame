@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 public class firstScreen{
     public Scene scene;
     private Circle cir;
-    private circle circle1;
+    private ring circle1;
 
     public firstScreen(Stage primaryStage, gameMain gameMain){
         Pane root = new Pane();
@@ -27,8 +27,8 @@ public class firstScreen{
         cir.setRadius(15);
         cir.setLayoutX(250);
         cir.setLayoutY(635);
-        circle1 = new circle(xCoordinate, yCoordinate, radius1, 23, 1);
-        root.getChildren().addAll(cir ,circle1.circle);
+        circle1 = new ring(yCoordinate, radius1, 23, 1);
+        root.getChildren().addAll(cir ,circle1.getNode());
         TranslateTransition trans = new TranslateTransition();
         trans.setDuration(Duration.millis(250));
         trans.setAutoReverse(true);
