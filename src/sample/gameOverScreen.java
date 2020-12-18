@@ -17,18 +17,23 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 
-public class gameOverScreen {
-    public Scene scene;
-    private Pane root;
-    private Stage primaryStage;
-    private Scene gameMain;
-    private gameplay gameplayScreen;
-    private Text finalScore;
+public class gameOverScreen implements java.io.Serializable {
+    transient public Scene scene;
+    transient private Pane root;
+    transient private Stage primaryStage;
+    transient private Scene gameMain;
+    transient private gameplay gameplayScreen;
+    transient private Text finalScore;
 
-    public gameOverScreen(Stage primaryStage, Scene gameMain, gameplay gameplayScreen){
+    public gameOverScreen(gameplay gameplayScreen){
 
-        this.primaryStage = primaryStage;
-        this.gameMain = gameMain;
+        this.gameplayScreen = gameplayScreen;
+        deSerialize();
+
+    }
+    public void deSerialize(){
+        this.primaryStage = gameplayScreen.primaryStage;
+        this.gameMain = gameplayScreen.gameMain;
         this.gameplayScreen = gameplayScreen;
 
         root = new Pane();
@@ -37,7 +42,6 @@ public class gameOverScreen {
         root.setStyle("-fx-background-color: #272327;");
         scene = new Scene(root, 500, 700);
         scene.getStylesheets().add("gameOver.css");
-
     }
 
 

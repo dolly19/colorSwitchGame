@@ -11,22 +11,30 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 
-public class gameMain {
-    private VBox root;
-    public Scene scene;
-    private Stage primaryStage;
-    private scoreScreen scoreScreen;
-    private gameplay gameplayScreen;
-    private loadGame loadGameScreen;
-    private Button loadButton;
-    private Button scoreButton ;
-    private Button settingButton ;
-    private Button exitButton ;
-    private settingsScreen settingScreen;
+
+public class gameMain implements java.io.Serializable{
+    transient private VBox root;
+    transient public Scene scene;
+    transient public Stage primaryStage;
+    transient private scoreScreen scoreScreen;
+    transient private gameplay gameplayScreen;
+    transient private loadGame loadGameScreen;
+    transient private Button loadButton;
+    transient private Button scoreButton ;
+    transient private Button settingButton ;
+    transient private Button exitButton ;
+    transient private settingsScreen settingScreen;
     StackPane middleButton;
 
     public gameMain(Stage primaryStage){
+        deSerialize(primaryStage);
+    }
+
+    public void deSerialize(Stage primaryStage){
         this.primaryStage = primaryStage;
         this.loadButton = new Button("Load Game");
         this.scoreButton = new Button("Scores");
@@ -51,10 +59,12 @@ public class gameMain {
         scene = new Scene(root, 500, 700);
         scene.getStylesheets().add("gameMain.css");
 
-        scoreScreen = new scoreScreen(primaryStage, scene);
-        loadGameScreen = new loadGame(primaryStage, this.scene);
         gameplayScreen = new gameplay(primaryStage, this.scene);
-        settingScreen = new settingsScreen(primaryStage, this.scene);
+
+        scoreScreen = new scoreScreen(primaryStage, scene);
+        loadGameScreen = new loadGame(this);
+        settingScreen = new settingsScreen(this);
+
     }
 
     private void addClassToButtons(){
@@ -114,11 +124,33 @@ public class gameMain {
         loadButton.getStyleClass().addAll("gameMainButtons", "loadButton");
         EventHandler<ActionEvent> toLoadGameScreen =
                 e -> {
-                    this.primaryStage.setScene(loadGameScreen.scene);
+
+                    try
+                    {
+                        FileInputStream file = new FileInputStream("test.ser");
+                        ObjectInputStream in = new ObjectInputStream(file);
+
+                        this.gameplayScreen = (gameplay) in.readObject();
+                        gameplayScreen.deSerialize(primaryStage,this.scene);
+                        in.close();
+                        file.close();
+                        this.primaryStage.setScene(gameplayScreen.getScene());
+                    }
+                    catch(IOException ex)
+                    {
+                        ex.printStackTrace();
+                        System.out.println("IOException is caught");
+                    }
+                    catch(ClassNotFoundException ex)
+                    {
+                        System.out.println("ClassNotFoundException is caught");
+                    }
+
+//                    this.primaryStage.setScene(this.scene);
+
                 };
         loadButton.setOnAction(toLoadGameScreen);
     }
-
     private void setSettingScreen(){
         EventHandler<ActionEvent> toSettings =
                 e -> {
@@ -127,7 +159,6 @@ public class gameMain {
         settingButton.setOnAction(toSettings);
 
     }
-
     private void setExitAlert(){
         exitButton.getStyleClass().addAll("gameMainButtons", "exitButton");
         Alert exitAlert = new Alert(Alert.AlertType.CONFIRMATION);

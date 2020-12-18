@@ -10,16 +10,24 @@ import javafx.scene.shape.ArcType;
 import javafx.util.Duration;
 
 public class ring extends gameElement {
-    Group ring;
+    transient private Group ring;
     private int height;
-    private RotateTransition rotate;
-//    private double speed;
+    private int radius;
+    private int width;
+    private int direction;
+    transient private RotateTransition rotate;
 
     public ring(int height, int radius, int width, int direction){
-
         this.height = height;
-        this.rotate = new RotateTransition();
+        this.radius = radius;
+        this.width = width;
+        this.direction = direction;
         this.speed = 3000;
+        deSerialize();
+    }
+    @Override
+    public void deSerialize(){
+        this.rotate = new RotateTransition();
 
         Arc arc1 = new Arc(250, height, radius, radius, 0, 90);
         Arc arc2 = new Arc(250, height, radius, radius, 90, 90);
@@ -69,6 +77,7 @@ public class ring extends gameElement {
 
 
     }
+
     @Override
     public void setLayoutY(double y){
         ring.setLayoutY(y);

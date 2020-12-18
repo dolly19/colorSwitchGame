@@ -6,6 +6,7 @@
     -fx-max-width: 75px;
     -fx-max-height: 75px;
     -fx-background-color: transparent;
+    -fx-background-radius: 30;
 }
 
 .resumeButton{
@@ -16,10 +17,15 @@
 -fx-min-width: 220px;
 -fx-max-height: 0px;
 -fx-background-color: transparent;
+-fx-background-radius: 30;
 -fx-border-width: 3 3 3 3;
 -fx-border-radius: 30;
 
 }
+.resumeButton:hover{
+    -fx-text-fill: #FFFFFF;
+    -fx-background-color: #32DBF0;
+    }
 
 .restartButton{
 
@@ -29,10 +35,15 @@
 -fx-min-width: 220px;
 -fx-max-height: 0px;
 -fx-background-color: transparent;
+-fx-background-radius: 30;
 -fx-border-width: 3 3 3 3;
 -fx-border-radius: 30;
 
 }
+.restartButton:hover{
+    -fx-text-fill: #FFFFFF;
+    -fx-background-color: #32D100;
+    }
 
 .saveButton{
 
@@ -42,7 +53,29 @@
 -fx-min-width: 220px;
 -fx-max-height: 0px;
 -fx-background-color: transparent;
+-fx-background-radius: 30;
 -fx-border-width: 3 3 3 3;
 -fx-border-radius: 30;
 
 }
+.saveButton:hover{
+    -fx-text-fill: #FFFFFF;
+    -fx-background-color: #FF0181;
+    }
+
+
+.colorButton{
+-fx-border-color: #FAE100;
+-fx-text-fill: #FAE100;
+-fx-min-width: 220px;
+-fx-max-height: 0px;
+-fx-background-color: transparent;
+-fx-background-radius: 30;
+ -fx-font-size: 2em;
+-fx-border-width: 3 3 3 3;
+-fx-border-radius: 30;
+ }
+ .colorButton:hover{
+     -fx-text-fill: #FFFFFF;
+     -fx-background-color: #FAE100;
+     }

@@ -12,22 +12,32 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class pauseScreen {
-    public VBox root;
-    public Scene scene;
-    private Stage primaryStage;
-    private gameplay gameplayScreen;
-    private Button homeButton;
-    private Button resumeButton;
-    private Button saveButton;
-    private Button restartButton;
-    private Button colorButton;
-    private Group homeButtonGroup;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 
-    public pauseScreen(Stage primaryStage, gameplay gameplayScreen, Scene gameMain, Scene gameOverScreen, AnimationTimer animation)  {
+public class pauseScreen implements java.io.Serializable {
+    transient public VBox root;
+    transient public Scene scene;
+    transient private Stage primaryStage;
+    transient private gameplay gameplayScreen;
+    transient private Button homeButton;
+    transient private Button resumeButton;
+    transient private Button saveButton;
+    transient private Button restartButton;
+    transient private Button colorButton;
+    transient private Group homeButtonGroup;
 
+    public pauseScreen(gameplay gameplayScreen)  {
+
+        deSerialize(gameplayScreen);
+
+    }
+
+    public void deSerialize(gameplay gameplay){
+        this.gameplayScreen = gameplay;
         this.root = new VBox(30);
-        this.primaryStage = primaryStage;
+        this.primaryStage = gameplay.primaryStage;
         this.homeButtonGroup = new Group();
         this.resumeButton = new Button("RESUME");
         this.restartButton = new Button("RESTART");
@@ -35,10 +45,10 @@ public class pauseScreen {
         this.colorButton = new Button("Color");
         this.gameplayScreen = gameplayScreen;
 
-        setUpHomeButton(gameMain);
+        setUpHomeButton(gameplay.gameMain);
         setUpResumeButton();
         setUpSaveButton();
-        setUpChangeColor(primaryStage, gameOverScreen);
+        setUpChangeColor(primaryStage);
         setUpRestartButton();
 
 
@@ -49,9 +59,7 @@ public class pauseScreen {
         scene = new Scene(root, 500, 700);
         scene.getStylesheets().add("pauseScreen.css");
 
-
     }
-
     private void setUpHomeButton(Scene gameMain){
         homeButton = new Button();
         Image image = new Image("file:assets/images/homeButton.png");
@@ -97,15 +105,51 @@ public class pauseScreen {
 
     private void setUpSaveButton(){
         saveButton.getStyleClass().add("saveButton");
+        EventHandler<ActionEvent> restartGame =
+                e -> {
+
+            gameplayScreen.serialize();
+
+                    try
+                    {
+                        String filename = "test" + ".ser";
+                        FileOutputStream file = new FileOutputStream(filename);
+                        ObjectOutputStream out = new ObjectOutputStream(file);
+
+                        out.writeObject(this.gameplayScreen);
+
+                        out.close();
+                        file.close();
+
+                        System.out.println("Game Saved to: " + filename);
+                        gameplayScreen.restartGame();
+                        primaryStage.setScene(gameplayScreen.gameMain);
+
+                    }
+
+                    catch(IOException ex)
+                    {
+                        ex.printStackTrace();
+                    }
+
+
+
+
+
+
+
+
+                };
+        saveButton.setOnAction(restartGame);
+
+
+
+
+
     }
 
-    private void setUpChangeColor(Stage primaryStage, Scene gameOverScreen){
-        colorButton.setStyle(
-                "-fx-border-color: yellow;" + " -fx-text-fill: yellow;" +
-                        "-fx-min-width: 220px;" +
-                        "-fx-max-height: 0px;" + "-fx-background-color: transparent;"+ " -fx-font-size: 2em;" +
-                        "-fx-border-width: 3 3 3 3; " +
-                        "-fx-border-radius: 30; " );
+    private void setUpChangeColor(Stage primaryStage){
+        colorButton.getStyleClass().add("colorButton");
         colorButton.setLayoutX(40);
         colorButton.setLayoutY(20);
 

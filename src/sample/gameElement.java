@@ -3,7 +3,7 @@ package sample;
 
 import javafx.scene.Group;
 
-abstract class gameElement {
+abstract class gameElement implements java.io.Serializable {
     int speed;
     abstract void move(double y);
     abstract Group getNode();
@@ -12,4 +12,5 @@ abstract class gameElement {
     abstract void levelUp();
     abstract void startAnimation();
     abstract void pauseAnimation();
+    abstract void deSerialize();
 }

@@ -10,14 +10,19 @@ import javafx.scene.shape.Shape;
 import javafx.util.Duration;
 
 public class circleRing extends gameElement {
-    private static final int NUM_NODES = 24;
-    private static final double H = 400;
-    private static final double NODE_SIZE = H / 13.0;
-    private Transition transition;
-    Group content;
-    circleRing(int height){
+    private int NUM_NODES = 24;
+    private double H = 400;
+    private double NODE_SIZE = H / 13.0;
+    transient private Transition transition;
+    transient Group content;
+
+    circleRing(){
+        deSerialize();
+    }
+    @Override
+    public void deSerialize(){
         content = new Group();
-        Shape path = new Circle(250, height, H * 3 / 8.0 - NODE_SIZE);
+        Shape path = new Circle(250, 0, H * 3 / 8.0 - NODE_SIZE);
 
         for (int i = 0; i < 24; i++) {
             if (i < 6){
@@ -53,11 +58,8 @@ public class circleRing extends gameElement {
 
             }
         }
-//        content.setLayoutX(0);
-        content.setLayoutY(height);
+        content.setLayoutY(0);
         pauseAnimation();
-
-
     }
 
     private PathTransition createPathTransition(Shape shape, Node node) {

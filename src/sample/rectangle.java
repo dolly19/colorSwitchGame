@@ -8,17 +8,64 @@ import javafx.scene.shape.Line;
 import javafx.util.Duration;
 
 public class rectangle extends gameElement {
-    private Line line1;
-    private Line line2;
-    private Line line3;
-    private Line line4;
+    transient private Line line1;
+    transient private Line line2;
+    transient private Line line3;
+    transient private Line line4;
+    transient Group square;
+    transient private RotateTransition rotate;
     private int height;
-    Group square;
-    private RotateTransition rotate;
+    private int width;
+    private int length;
 
-    public rectangle(int height,int width ,int length , int direction) {
+    public rectangle(int height,int width ,int length) {
         this.speed = 3000;
         this.height = height;
+        this.width = width;
+        this.length = length;
+        deSerialize();
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void moveDownBy(int x){
+
+    }
+
+    @Override
+    void move(double y) {
+        square.setLayoutY(square.getLayoutY() + y);
+    }
+
+    @Override
+    Group getNode() {
+        return square;
+    }
+
+    @Override
+    void setLayoutY(double y) {
+        square.setLayoutY(y);
+    }
+
+    @Override
+    double getLayoutY() {
+        return square.getLayoutY();
+    }
+
+    @Override
+    void levelUp() {
+        rotate.stop();
+        rotate.setNode(square);
+        speed -= 100;
+        rotate.setDuration(Duration.millis(speed));
+        rotate.play();
+
+    }
+
+    @Override
+    public void deSerialize(){
         line1 = new Line();
         line1.setStartX(165);
         line1.setStartY(height - length/2);
@@ -69,53 +116,11 @@ public class rectangle extends gameElement {
         rotate.setNode(square);
         rotate.setDuration(Duration.millis(speed));
 
-        if(direction == 0){
-            rotate.setByAngle(360);
-        }else{
-            rotate.setByAngle(-360);
-        }
+        rotate.setByAngle(360);
 
         rotate.setCycleCount(Timeline.INDEFINITE);
         rotate.setInterpolator(Interpolator.LINEAR);
         rotate.play();
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void moveDownBy(int x){
-
-    }
-
-    @Override
-    void move(double y) {
-        square.setLayoutY(square.getLayoutY() + y);
-    }
-
-    @Override
-    Group getNode() {
-        return square;
-    }
-
-    @Override
-    void setLayoutY(double y) {
-        square.setLayoutY(y);
-    }
-
-    @Override
-    double getLayoutY() {
-        return square.getLayoutY();
-    }
-
-    @Override
-    void levelUp() {
-        rotate.stop();
-        rotate.setNode(square);
-        speed -= 100;
-        rotate.setDuration(Duration.millis(speed));
-        rotate.play();
-
     }
 
     @Override

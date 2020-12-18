@@ -11,19 +11,19 @@ import javafx.scene.shape.Line;
 import javafx.util.Duration;
 
 public class plusObstacle extends gameElement {
-    private Line line1;
-    private Line line2;
-    private Line line3;
-    private Line line4;
-    private int height;
-    Group plus;
-    private RotateTransition rotate;
-    //    public Scene scene;
+    transient private Line line1;
+    transient private Line line2;
+    transient private Line line3;
+    transient private Line line4;
+    transient Group plus;
+    transient private RotateTransition rotate;
+
     plusObstacle(){
-//        Pane root = new Pane();
+        deSerialize();
+    }
+    @Override
+    public void deSerialize(){
         int width =20;
-//        root.setStyle("-fx-background-color: rgb(39,39,39)");
-//        scene = new Scene(root, 500 , 700);
         line1 = new Line();
         line1.setStartX(40);
         line1.setStartY(120);
@@ -74,16 +74,11 @@ public class plusObstacle extends gameElement {
         rotate = new RotateTransition();
         rotate.setNode(plus);
         rotate.setDuration(Duration.seconds(4));
-
-        if(1 == 0){
-            rotate.setByAngle(360);
-        }else{
-            rotate.setByAngle(-360);
-        }
-
+        rotate.setByAngle(-360);
         rotate.setCycleCount(Timeline.INDEFINITE);
         rotate.setInterpolator(Interpolator.LINEAR);
         rotate.play();
+
     }
 
     @Override

@@ -11,13 +11,19 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class scoreScreen {
-    private Pane root;
-    public Scene scene;
-    private Stage primaryStage;
-    private Scene startScreenScene;
+public class scoreScreen implements java.io.Serializable {
+    transient private Pane root;
+    transient public Scene scene;
+    transient private Stage primaryStage;
+    transient private Scene startScreenScene;
 
     public scoreScreen(Stage primaryStage, Scene startScreenScene){
+
+        deSerialize(primaryStage, startScreenScene);
+
+    }
+
+    public void deSerialize(Stage primaryStage, Scene startScreenScene){
         this.primaryStage = primaryStage;
         this.startScreenScene = startScreenScene;
 
@@ -37,8 +43,6 @@ public class scoreScreen {
         root.setStyle("-fx-background-color: #272327;");
         scene = new Scene(root, 500, 700);
         scene.getStylesheets().add("scoreScreen.css");
-
-
 
     }
 

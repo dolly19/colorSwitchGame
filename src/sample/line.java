@@ -11,24 +11,29 @@ import javafx.util.Duration;
 
 public class line extends gameElement {
 
-    private Transition transition;
-    private Line linepath;
-    private Line line;
-    private int height;
-    private Node node;
-    private final int NUM_NODES1;
-    Group content1;
-    public line(int height){
-        this.height = height;
+    transient private Transition transition;
+    transient private Line linepath;
+    transient private Line line;
+    transient private Node node;
+    transient private int NUM_NODES1;
+    transient Group content1;
+
+    public line(){
+
+        deSerialize();
+
+    }
+
+    public void deSerialize(){
 
         linepath = new Line();
         linepath.setStartX(0);
-        linepath.setStartY(height);
+        linepath.setStartY(0);
         linepath.setEndX(700.0);
-        linepath.setEndY(height);
+        linepath.setEndY(0);
 
         NUM_NODES1 = 6;
-        content1 = new Group();
+        this.content1 = new Group();
 
 
 
@@ -97,7 +102,6 @@ public class line extends gameElement {
         transition.play();
         return transition;
     }
-
 
     @Override
     void move(double y) {

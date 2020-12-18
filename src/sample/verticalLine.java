@@ -3,23 +3,27 @@ package sample;
 import javafx.animation.*;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Shape;
 import javafx.util.Duration;
 
 public class verticalLine extends gameElement {
-    private TranslateTransition translate;
-    private Transition transition;
-    private Line linepath , linep;
-    private Line line;
-    private Node node;
+    transient private TranslateTransition translate;
+    transient private Transition transition;
+    transient private Line linepath , linep;
+    transient private Line line;
+    transient private Node node;
     private int height;
-    private final int NUM_NODES1;
-    Group content;
-    verticalLine(int height){
-        this.height = height;
+    private int NUM_NODES1;
+    transient Group content;
+
+    verticalLine(){
+        deSerialize();
+    }
+    @Override
+    public void deSerialize(){
+
         translate = new TranslateTransition();
 
         linepath = new Line();
@@ -140,6 +144,7 @@ public class verticalLine extends gameElement {
         }
         content.relocate(-100,0);
     }
+
     private PathTransition createPathTransition(Shape shape, Node node) {
         final PathTransition transition = new PathTransition(
                 Duration.seconds(10),

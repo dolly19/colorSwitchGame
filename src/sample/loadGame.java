@@ -19,12 +19,17 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 public class loadGame {
-    private Pane root;
-    public Scene scene;
+    transient private Pane root;
+    transient public Scene scene;
+    transient public gameMain gameMainScreen;
 
-    public loadGame(Stage primaryStage, Scene startScreen) {
-        Pane root = new Pane();
-        root.setStyle("-fx-background-color: #272327");
+    public loadGame(gameMain gameMainScreen) {
+        deSerialize(gameMainScreen);
+    }
+    public void deSerialize(gameMain gameMainScreen){
+        this.gameMainScreen = gameMainScreen;
+        this.root = new Pane();
+        this.root.setStyle("-fx-background-color: #272327");
         scene = new Scene(root, 500, 700);
         Rectangle rect = new Rectangle();
         rect.setX(0);
@@ -62,7 +67,7 @@ public class loadGame {
 
         EventHandler<ActionEvent> goToHome =
                 e -> {
-                    primaryStage.setScene(startScreen);
+                    this.gameMainScreen.primaryStage.setScene(this.gameMainScreen.scene);
                 };
         homeButton.setOnAction(goToHome);
 
@@ -94,6 +99,8 @@ public class loadGame {
         root1.setLayoutY(160);
         root1.getChildren().addAll(btn1,btn2,btn3 );
         root.getChildren().addAll(rect ,text , root1 ,homeButtonImage, homeButton);
+
+
     }
 
 }

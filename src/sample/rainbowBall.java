@@ -7,9 +7,13 @@ import javafx.scene.shape.Arc;
 import javafx.scene.shape.ArcType;
 
 public class rainbowBall extends gameElement {
-    Group ball;
+    transient Group ball;
 
     public rainbowBall(){
+        deSerialize();
+    }
+    @Override
+    public void deSerialize(){
         Arc arc1 = new Arc(250, 0, 15, 15, 0, 90);
         Arc arc2 = new Arc(250, 0, 15, 15, 90, 90);
         Arc arc3 = new Arc(250, 0, 15, 15, 180, 90);
@@ -37,6 +41,7 @@ public class rainbowBall extends gameElement {
 
         ball = new Group();
         ball.getChildren().addAll(arc1, arc2, arc3, arc4);
+
     }
 
     @Override

@@ -6,11 +6,11 @@ import javafx.scene.shape.Circle;
 
 import java.util.Random;
 
-public class playerBall {
+public class playerBall implements java.io.Serializable {
 
     private static playerBall single_instance = null;
 
-    private Circle circle;
+    transient private Circle circle;
     private String colors[];
     private String currColor;
     float ballGravity;
@@ -20,13 +20,15 @@ public class playerBall {
         this.v = 4.45f;
         colors = new String[]{"#FAE100", "#900DFF", "#FF0181", "#32DBF0"};
         currColor = "WHITE";
+        deSerialize();
 
-        circle = new Circle();
-        circle.setCenterX(250);
-        circle.setCenterY(650);
-        circle.setRadius(10);
-        circle.setFill(Paint.valueOf(currColor));
-
+    }
+    public void deSerialize(){
+        this.circle = new Circle();
+        this.circle.setCenterX(250);
+        this.circle.setCenterY(650);
+        this.circle.setRadius(10);
+        this.circle.setFill(Paint.valueOf(currColor));
     }
 
     public static playerBall getInstance()

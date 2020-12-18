@@ -24,39 +24,42 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
-public class gameplay {
+public class gameplay implements java.io.Serializable {
     private gameOverScreen gameOverScreen;
-    private pauseScreen pauseScreen;
-    private Pane root;
-    private Stage primaryStage;
-    private Scene scene;
-    private AnimationTimer animation;
-    private Text scoreBoard;
+    transient private pauseScreen pauseScreen;
+    transient private Pane root;
+    transient private Scene scene;
+    transient public Stage primaryStage;
+    transient public Scene gameMain;
+    transient private AnimationTimer animation;
+    transient private Text scoreBoard;
     Player player;
-    ArrayList<gameElement> allObstacles;
-    ArrayList<rainbowBall> colorSwitchers;
-    ArrayList<star> stars;
-
+    private ArrayList<gameElement> allObstacles;
+    private ArrayList<rainbowBall> colorSwitchers;
+    private ArrayList<star> stars;
+    private double[] obstaclesPositions;
+    private double[] switchersPositions;
+    private double[] starsPositions;
+    private double ballY;
 
     public gameplay(Stage primaryStage, Scene gameMain){
-        this.primaryStage = primaryStage;
-        this.gameOverScreen = new gameOverScreen(primaryStage, gameMain, this);
+        this.primaryStage=primaryStage;
+        this.gameMain=gameMain;
+        this.gameOverScreen = new gameOverScreen(this);
         this.root = new Pane();
-        this.player = new Player();
+        player=new Player();
         this.colorSwitchers = new ArrayList<>();
         this.allObstacles = new ArrayList<>();
         this.stars = new ArrayList<>();
 
+
+
         createGameElements();
-        addPauseButton(primaryStage);
         startGame();
-
+        this.pauseScreen = new pauseScreen(this);
+        addPauseButton(primaryStage);
         this.scene = new Scene(root, 500, 700);
-
         root.setStyle("-fx-background-color: #272327;");
-
-        this.pauseScreen = new pauseScreen(primaryStage, this, gameMain, this.gameOverScreen.scene, animation);
-
 
         scene.setOnKeyPressed((KeyEvent event) -> {
             if (event.getCode() == KeyCode.W) {
@@ -65,8 +68,52 @@ public class gameplay {
                 player.ball.setV(4.5f);
             }
         });
+
     }
 
+    public void deSerialize(Stage primaryStage,Scene gameMain){
+        this.primaryStage=primaryStage;
+        this.gameMain=gameMain;
+        this.gameOverScreen = new gameOverScreen(this);
+        this.root = new Pane();
+        player.deSerialize();
+        player.ball.setCentreY(ballY);
+        for(int i = 0; i < allObstacles.size(); i++){
+            allObstacles.get(i).deSerialize();
+            allObstacles.get(i).setLayoutY(obstaclesPositions[i]);
+        }
+        for(int i = 0; i < stars.size(); i++){
+            stars.get(i).deSerialize();
+            stars.get(i).setLayoutY(starsPositions[i]);
+        }
+        for (int i = 0; i < colorSwitchers.size(); i++){
+            colorSwitchers.get(i).deSerialize();
+            colorSwitchers.get(i).setLayoutY(switchersPositions[i]);
+        }
+        addPauseButton(primaryStage);
+        this.scene = new Scene(root, 500, 700);
+        root.setStyle("-fx-background-color: #272327;");
+        startGame();
+        this.pauseScreen = new pauseScreen(this);
+
+        for (int i = 0; i < allObstacles.size(); i++){
+            root.getChildren().add(allObstacles.get(i).getNode());
+        }
+
+        for(int i = 0; i < allObstacles.size(); i++){
+            root.getChildren().addAll(colorSwitchers.get(i).getNode(), stars.get(i).getNode());
+        }
+        root.getChildren().addAll(player.ball.getBall());
+
+        scene.setOnKeyPressed((KeyEvent event) -> {
+            if (event.getCode() == KeyCode.W) {
+                animation.start();
+                startObstacleAnimation();
+                player.ball.setV(4.5f);
+            }
+        });
+
+    }
     public void startGame(){
 
         animation = new AnimationTimer() {
@@ -112,18 +159,21 @@ public class gameplay {
                         double h2 = allObstacles.get(i).getNode().getBoundsInLocal().getHeight() / 2;
 
                         allObstacles.get(i).setLayoutY(allObstacles.get(least).getLayoutY() - h1 - h2 - 200);
+//                        colorSwitchers.remove(0);
+//                        stars.remove(0);
+//                        rainbowBall newRainbow = new rainbowBall();
+//                        newRainbow.setLayoutY(allObstacles.get(i).getLayoutY() + h2 + 100);
+//                        colorSwitchers.add(newRainbow);
+//                        root.getChildren().add(newRainbow.getNode());
+//
+//                        star newStar = new star();
+//                        newStar.setLayoutY(allObstacles.get(i).getLayoutY() - newStar.getNode().getLayoutBounds().getHeight()/2);
+//
+//                        stars.add(newStar);
+//                        root.getChildren().add(newStar.getNode());
 
-                        rainbowBall newRainbow = new rainbowBall();
-                        newRainbow.setLayoutY(allObstacles.get(i).getLayoutY() + h2 + 100);
-                        colorSwitchers.add(newRainbow);
-                        root.getChildren().add(newRainbow.getNode());
-
-                        star newStar = new star();
-                        newStar.setLayoutY(allObstacles.get(i).getLayoutY() - newStar.getNode().getLayoutBounds().getHeight()/2);
-
-                        stars.add(newStar);
-                        root.getChildren().add(newStar.getNode());
-
+                        colorSwitchers.get(i).setLayoutY(allObstacles.get(i).getLayoutY() + h2 + 100);
+                        stars.get(i).setLayoutY(allObstacles.get(i).getLayoutY() - stars.get(i).getNode().getLayoutBounds().getHeight()/2);
                         allObstacles.get(i).levelUp();
 
                     }
@@ -135,9 +185,8 @@ public class gameplay {
                     Shape intersect = Shape.intersect((Shape) colorSwitchers.get(i).getNode().getChildren().get(2), player.ball.getBall());
                     if(intersect.getBoundsInLocal().getWidth() != -1){
                         player.ball.changeColour();
-                        root.getChildren().remove(colorSwitchers.get(i).getNode());
-                        colorSwitchers.remove(i);
-                        i--;
+//                        root.getChildren().remove(colorSwitchers.get(i).getNode());
+                        colorSwitchers.get(i).setLayoutY(2000);
                         System.out.println("Its intersection with color switcher!!!");
                     }
                 }
@@ -149,9 +198,8 @@ public class gameplay {
                         player.increaseScore();
                         updateScoreboard(String.valueOf(player.getScore()));
                         System.out.println("Player Score = " + player.getScore());
-                        root.getChildren().remove(stars.get(i).getNode());
-                        stars.remove(i);
-                        i--;
+//                        root.getChildren().remove(stars.get(i).getNode());
+                        stars.get(i).setLayoutY(2000);
                     }
                 }
 
@@ -182,18 +230,30 @@ public class gameplay {
         };
     }
 
+    public void serialize(){
 
+        for(int i = 0; i < allObstacles.size(); i++){
+            obstaclesPositions[i] = allObstacles.get(i).getLayoutY();
+        }
+        for(int i = 0; i < stars.size(); i++){
+            starsPositions[i] = stars.get(i).getLayoutY();
+        }
+        for (int i = 0; i < colorSwitchers.size(); i++){
+            switchersPositions[i] = colorSwitchers.get(i).getLayoutY();
+        }
+        ballY=player.ball.getLayoutY();
+    }
     private void createGameElements(){
         root.getChildren().addAll(player.ball.getBall());
 
         allObstacles.add(new ring(0, 85, 15, 1));
-        allObstacles.add(new doubleRing(0, 85, 15));
-        allObstacles.add(new rectangle(0, 15, 170, 1));
-        allObstacles.add(new verticalLine(0));
+        allObstacles.add(new doubleRing());
+        allObstacles.add(new rectangle(0, 15, 170));
+        allObstacles.add(new verticalLine());
         allObstacles.add(new plusObstacle());
-        allObstacles.add(new tripleRing(0, 85, 15));
-        allObstacles.add(new line(0));
-        allObstacles.add(new circleRing(0));
+        allObstacles.add(new tripleRing());
+        allObstacles.add(new line());
+        allObstacles.add(new circleRing());
 
 
         allObstacles.get(0).setLayoutY(350);
@@ -203,9 +263,7 @@ public class gameplay {
             double h2 = allObstacles.get(i).getNode().getBoundsInLocal().getHeight() / 2;
             allObstacles.get(i).setLayoutY(allObstacles.get(i-1).getLayoutY() - h1 - h2 - 200);
             root.getChildren().add(allObstacles.get(i).getNode());
-
         }
-
 
         for(int i = 0; i < allObstacles.size(); i++){
             colorSwitchers.add(new rainbowBall());
@@ -216,6 +274,12 @@ public class gameplay {
             root.getChildren().addAll(colorSwitchers.get(i).getNode(), stars.get(i).getNode());
 
         }
+
+
+        this.obstaclesPositions = new double[allObstacles.size()];
+        this.switchersPositions = new double[colorSwitchers.size()];
+        this.starsPositions = new double[stars.size()];
+
     }
     public void pauseGame(){
         animation.stop();
@@ -224,6 +288,7 @@ public class gameplay {
 
     public void restartGame(){
         player.ball.setCentreY(650);
+        player.ball.makeItWhite();
         player.setScore(0);
         updateScoreboard("0");
         allObstacles.get(0).setLayoutY(350);
@@ -252,6 +317,9 @@ public class gameplay {
             colorSwitchers.get(i).setLayoutY(allObstacles.get(i).getLayoutY() + h + 100);
             stars.get(i).setLayoutY(allObstacles.get(i).getLayoutY() - stars.get(i).getNode().getLayoutBounds().getHeight()/2);
         }
+//        root.getChildren().add(stars.get(0).getNode());
+//        root.getChildren().add(colorSwitchers.get(0).getNode());
+//        root.getChildren().add(colorSwitchers.get(1).getNode());
 
 
     }

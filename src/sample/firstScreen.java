@@ -11,13 +11,19 @@ import javafx.util.Duration;
 import java.util.concurrent.TimeUnit;
 
 public class firstScreen{
-    public Scene scene;
-    private Circle cir;
-    private ring circle1;
+    transient public Scene scene;
+    transient private Circle cir;
+    transient private ring circle1;
+    transient public Stage primaryStage;
+    transient public gameMain gameMain;
 
     public firstScreen(Stage primaryStage, gameMain gameMain){
+        deSerialize(primaryStage, gameMain);
+    }
+    public void deSerialize(Stage primaryStage, gameMain gameMain){
+        this.primaryStage = primaryStage;
+        this.gameMain = gameMain;
         Pane root = new Pane();
-        int xCoordinate = 250;
         int yCoordinate = 334;
         int radius1 = 90;
         root.setStyle("-fx-background-color: #272327");

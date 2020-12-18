@@ -1,14 +1,19 @@
 package sample;
 
-import javafx.scene.shape.Circle;
 
-public class Player {
-    public playerBall ball;
+public class Player implements java.io.Serializable {
+    transient public playerBall ball;
     private int score;
 
     Player(){
-        this.ball = playerBall.getInstance();
         this.score  = 0;
+        deSerialize();
+
+    }
+
+    public void deSerialize(){
+        this.ball = playerBall.getInstance();
+
     }
 
     public void jump(double y){
@@ -26,5 +31,7 @@ public class Player {
     public void increaseScore(){
         score++;
     }
+
+
 
 }

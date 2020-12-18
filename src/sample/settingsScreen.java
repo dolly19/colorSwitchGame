@@ -18,7 +18,7 @@ import javax.print.attribute.standard.RequestingUserName;
 import java.io.File;
 import java.util.Random;
 
-public class settingsScreen {
+public class settingsScreen implements java.io.Serializable {
     public Scene scene;
     private Button stopButton;
     private Button playButton ;
@@ -30,64 +30,44 @@ public class settingsScreen {
     private String[] musicPlaylist;
 
 
-    settingsScreen(Stage primaryStage, Scene gameMainScreen){
-        this.primaryStage = primaryStage;
+    settingsScreen(gameMain gameMainScreen){
+
+        deSerialize(gameMainScreen);
+
+    }
+
+    public void deSerialize(gameMain gameMainScreen){
+        this.primaryStage = gameMainScreen.primaryStage;
 
         musicPlaylist = new String[]{"Cave.mp3", "Hop.mp3", "Summer.mp3", "theme.mp3"};
 
         VBox root = new VBox(50);
         root.setStyle("-fx-background-color: rgb(39,39,39)");
         scene = new Scene(root, 500, 700);
+
+        scene.getStylesheets().add("settingScreen.css");
+
         stopButton = new Button("STOP MUSIC");
         playButton= new Button("PLAY MUSIC");
         changeButton = new Button("CHANGE MUSIC");
         homeButton = new Button();
-        stopButton.setStyle(
-                "-fx-font-size: 2em;"+"-fx-text-fill: #FF0181;"+
-                        "-fx-border-color: #FF0181;"+
-                        "-fx-min-width: 220px;"+
-                        " -fx-max-height: 0px;"+
-                        "-fx-background-color: transparent;"+
-                        "-fx-border-width: 3 3 3 3;"+
-                        "-fx-border-radius: 30;"
-        );
+        homeButton.getStyleClass().add("homeButton");
+        playButton.getStyleClass().add("playButton");
+        stopButton.getStyleClass().add("stopButton");
+        changeButton.getStyleClass().add("changeButton");
+
         stopButton.setOnAction(actionEvent -> musicStop());
-        homeButton.setStyle("-fx-background-radius: 5em;"+
-                "-fx-min-width: 75px;"+
-                "-fx-min-height: 75px;"+
-                "-fx-max-width: 75px;"+
-                "-fx-max-height: 75px;"+
-                "-fx-background-color: transparent;"
-
-        );
-        playButton.setStyle("-fx-font-size: 2em;"+"-fx-text-fill: #32DBF0;"+
-                "-fx-border-color:  #32DBF0;"+
-                "-fx-min-width: 220px;"+
-                " -fx-max-height: 0px;"+
-                "-fx-background-color: transparent;"+
-                "-fx-border-width: 3 3 3 3;"+
-                "-fx-border-radius: 30;");
-
         playButton.setOnAction(actionEvent -> musicPlay());
-
-        changeButton.setStyle("-fx-font-size: 2em;"+"-fx-text-fill: #32D100;"+
-                "-fx-border-color:  #32D100;"+
-                "-fx-min-width: 220px;"+
-                " -fx-max-height: 0px;"+
-                "-fx-background-color: transparent;"+
-                "-fx-border-width: 3 3 3 3;"+
-                "-fx-border-radius: 30;"
-
-        );
         changeButton.setOnAction(actionEvent -> musicChange());
-        setUpHomeButton(gameMainScreen);
+        setUpHomeButton(gameMainScreen.scene);
+
 
         root.setAlignment(Pos.CENTER);
         root.getChildren().addAll(homeButton,stopButton,playButton,changeButton);
         musicPlay();
 
-    }
 
+    }
     private void setUpHomeButton(Scene scene){
         Image image = new Image("file:assets/images/homeButton.png");
         ImageView homeButtonImage = new ImageView(image);
@@ -102,12 +82,10 @@ public class settingsScreen {
                 };
         homeButton.setOnAction(toSettings);
 
-
-
     }
 
     private void musicPlay(){
-        String path = "music/theme.mp3";
+        String path = "./music/theme.mp3";
 
         media = new Media(new File(path).toURI().toString());
         mediaPlayer = new MediaPlayer(media);
