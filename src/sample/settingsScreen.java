@@ -29,16 +29,12 @@ public class settingsScreen implements java.io.Serializable {
     private Stage primaryStage;
     private String[] musicPlaylist;
 
-
     settingsScreen(gameMain gameMainScreen){
-
         deSerialize(gameMainScreen);
-
     }
 
     public void deSerialize(gameMain gameMainScreen){
         this.primaryStage = gameMainScreen.primaryStage;
-
         musicPlaylist = new String[]{"Cave.mp3", "Hop.mp3", "Summer.mp3", "theme.mp3"};
 
         VBox root = new VBox(50);
@@ -65,17 +61,14 @@ public class settingsScreen implements java.io.Serializable {
         root.setAlignment(Pos.CENTER);
         root.getChildren().addAll(homeButton,stopButton,playButton,changeButton);
         musicPlay();
-
-
     }
+
     private void setUpHomeButton(Scene scene){
         Image image = new Image("file:assets/images/homeButton.png");
         ImageView homeButtonImage = new ImageView(image);
-        homeButtonImage.setFitWidth(75);
-        homeButtonImage.setFitHeight(130);
+        homeButtonImage.setFitHeight(75);
         homeButtonImage.setPreserveRatio(true);
         homeButton.setGraphic(homeButtonImage);
-
         EventHandler<ActionEvent> toSettings =
                 e -> {
                     this.primaryStage.setScene(scene);

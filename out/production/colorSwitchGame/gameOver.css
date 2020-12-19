@@ -6,8 +6,14 @@
 -fx-min-width: 220px;
 -fx-max-height: 0px;
 -fx-background-color: transparent;
+-fx-background-radius: 30;
 -fx-border-width: 3 3 3 3;
 -fx-border-radius: 30;
+
+}
+.resumeButton:hover{
+    -fx-text-fill: white;
+    -fx-background-color: #32DBF0;
 
 }
 .restartButton{

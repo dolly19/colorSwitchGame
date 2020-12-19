@@ -26,7 +26,6 @@ public class pauseScreen implements java.io.Serializable {
     transient private Button saveButton;
     transient private Button restartButton;
     transient private Button colorButton;
-    transient private Group homeButtonGroup;
 
     public pauseScreen(gameplay gameplayScreen)  {
 
@@ -38,7 +37,6 @@ public class pauseScreen implements java.io.Serializable {
         this.gameplayScreen = gameplay;
         this.root = new VBox(30);
         this.primaryStage = gameplay.primaryStage;
-        this.homeButtonGroup = new Group();
         this.resumeButton = new Button("RESUME");
         this.restartButton = new Button("RESTART");
         this.saveButton = new Button("SAVE GAME");
@@ -53,7 +51,7 @@ public class pauseScreen implements java.io.Serializable {
 
 
         root.setAlignment(Pos.CENTER);
-        root.getChildren().addAll(homeButtonGroup,resumeButton, saveButton, restartButton, colorButton);
+        root.getChildren().addAll(homeButton,resumeButton, saveButton, restartButton, colorButton);
 
         root.setStyle("-fx-background-color: #272327");
         scene = new Scene(root, 500, 700);
@@ -66,7 +64,7 @@ public class pauseScreen implements java.io.Serializable {
         ImageView homeButtonImage = new ImageView(image);
         homeButtonImage.setFitWidth(75);
         homeButtonImage.setPreserveRatio(true);
-
+        homeButton.setGraphic(homeButtonImage);
         homeButton.getStyleClass().add("homeButton");
 
         EventHandler<ActionEvent> goToHome =
@@ -75,9 +73,6 @@ public class pauseScreen implements java.io.Serializable {
                     this.primaryStage.setScene(gameMain);
                 };
         homeButton.setOnAction(goToHome);
-
-
-        homeButtonGroup.getChildren().addAll(homeButtonImage, homeButton);
 
     }
     private void setUpResumeButton(){

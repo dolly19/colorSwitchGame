@@ -202,28 +202,25 @@ public class gameplay implements java.io.Serializable {
                         stars.get(i).setLayoutY(2000);
                     }
                 }
-
 //      ---------------------- Ball and obstacles collision ----------------------
-
                 for(int i = 0; i < allObstacles.size(); i++){
-                    for (int j = 0; j < allObstacles.get(i).getNode().getChildren().size(); j++){
                         if(allObstacles.get(i).getLayoutY() > 0 && allObstacles.get(i).getLayoutY() < 700){
-                            Shape intersect = Shape.intersect((Shape) allObstacles.get(i).getNode().getChildren().get(j), player.ball.getBall());
-                            if(intersect.getBoundsInLocal().getHeight() > 12 && !allObstacles.get(i).getNode().getChildren().get(j).getId().equals(player.ball.getColor()) && !player.ball.getColor().equals("#FFFFFF")){
-                                System.out.println("Yippee!!!");
-                                System.out.println(!player.ball.getColor().equals("#FFFFFF"));
-                                gameOverScreen.setFinalScore(String.valueOf(player.getScore()));
-                                pauseGame();
+                            for (int j = 0; j < allObstacles.get(i).getNode().getChildren().size(); j++){
+                                Shape intersect = Shape.intersect((Shape) allObstacles.get(i).getNode().getChildren().get(j), player.ball.getBall());
+                                if(intersect.getBoundsInLocal().getHeight() > 12 && !allObstacles.get(i).getNode().getChildren().get(j).getId().equals(player.ball.getColor()) && !player.ball.getColor().equals("#FFFFFF")){
+                                    System.out.println("Yippee!!!");
+                                    System.out.println(!player.ball.getColor().equals("#FFFFFF"));
+                                    gameOverScreen.setFinalScore(String.valueOf(player.getScore()));
+                                    pauseGame();
 
-                                try {
-                                    Thread.sleep(1000);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
+                                    try {
+                                        Thread.sleep(1000);
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
+                                    primaryStage.setScene(gameOverScreen.scene);
                                 }
-                                primaryStage.setScene(gameOverScreen.scene);
                             }
-
-                        }
                     }
                 }
             }
@@ -231,7 +228,6 @@ public class gameplay implements java.io.Serializable {
     }
 
     public void serialize(){
-
         for(int i = 0; i < allObstacles.size(); i++){
             obstaclesPositions[i] = allObstacles.get(i).getLayoutY();
         }

@@ -56,16 +56,10 @@ public class gameOverScreen implements java.io.Serializable {
         return topImageView;
     }
 
-    private StackPane renderBackButton(){
-        StackPane root = new StackPane();
+    private Button renderBackButton(){
 
         Button button = new Button();
         button.setStyle(
-                "-fx-background-radius: 5em; " +
-                        "-fx-min-width: 70px; " +
-                        "-fx-min-height: 70px; " +
-                        "-fx-max-width: 70px; " +
-                        "-fx-max-height: 70px;" +
                         "-fx-background-color: transparent"
         );
 
@@ -81,12 +75,12 @@ public class gameOverScreen implements java.io.Serializable {
         topImageView.setPreserveRatio(true);
         topImageView.setFitWidth(70);
 
-        root.setLayoutX(40);
-        root.setLayoutY(30);
+        button.setGraphic(topImageView);
 
-        root.getChildren().addAll(topImageView, button);
+        button.setLayoutX(30);
+        button.setLayoutY(35);
 
-        return  root;
+        return  button;
     }
     private StackPane renderScoreHeader(){
         StackPane root = new StackPane();
@@ -152,6 +146,7 @@ public class gameOverScreen implements java.io.Serializable {
     private Button renderResumeButton(){
         Button resumeButton = new Button("Continue");
         resumeButton.getStyleClass().add("resumeButton");
+
         EventHandler<ActionEvent> resumeGame =
                 e -> {
                     int totalStars = gameplayScreen.player.getScore();
