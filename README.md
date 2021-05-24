@@ -19,9 +19,9 @@ A clone of the popular mobile game Color Switch using JavaFX. Endless game with 
 
 ![GamePlay](https://user-images.githubusercontent.com/66681287/119366124-42817f80-bcce-11eb-8aec-190f92888bd9.png)
 
-![ScoreBoard](https://user-images.githubusercontent.com/66681287/119365950-18c85880-bcce-11eb-95f5-bb5ccad426bc.png)
+![GameOver](https://user-images.githubusercontent.com/66681287/119365950-18c85880-bcce-11eb-95f5-bb5ccad426bc.png)
 
-![Stats](https://user-images.githubusercontent.com/66681287/119366047-2da4ec00-bcce-11eb-9550-508d08288603.png)
+![ScoreBoard](https://user-images.githubusercontent.com/66681287/119366047-2da4ec00-bcce-11eb-9550-508d08288603.png)
 
 ![Savedgamescreen](https://user-images.githubusercontent.com/66681287/119366222-5cbb5d80-bcce-11eb-8969-3e2cca3aeab4.png)
 
